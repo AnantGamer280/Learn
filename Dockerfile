@@ -1,6 +1,26 @@
-from flask import Flask, request, render_template_string
-import os
-import subprocess
+# Use an official Python image as a parent image
+FROM python:3.9
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install FFmpeg for video streaming
+RUN apt-get update && apt-get install -y ffmpeg
+
+# Expose port 5000 for Flask
+EXPOSE 5000
+
+# Define environment variable
+ENV FLASK_APP=app.py
+
+# Run the Flask server
+CMD ["python", "app.py"]
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
